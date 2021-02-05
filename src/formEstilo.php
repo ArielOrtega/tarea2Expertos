@@ -54,8 +54,8 @@
                                 </div>
                                 <div>
                                         <select name="Recinto">
-                                                <option value="1">Paraiso</option>
-                                                <option value="2">Turrialba</option>
+                                                <option value="Paraiso">Paraiso</option>
+                                                <option value="Turrialba">Turrialba</option>
                                         </select>
                                 </div>
                         </div>
@@ -73,8 +73,8 @@
                                 </div>
                                 <div>
                                         <select name="Sexo">
-                                                <option value="1">Femenino</option>
-                                                <option value="2">Masculino</option>
+                                                <option value="F">Femenino</option>
+                                                <option value="M">Masculino</option>
                                         </select>
                                 </div>
                         </div>

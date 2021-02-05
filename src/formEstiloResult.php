@@ -45,7 +45,7 @@
 
     //creamos un arreglo formado de estos 3 valores
     $arrayB = array(
-        $recinto, $promedio, $estilo
+        $recinto, $promedio, $sexo
     );
 
 
@@ -139,13 +139,13 @@
         //cuento cuantos registros hay en cada estilo, para conocer la cantidad de instancias
         for ($i = 0; $i < count($arrayA); $i++) {
             if (strcasecmp($arrayA[$i]['Estilo'], 'ACOMODADOR') == 0) {
-                $totalM++;
+                $totalAcomodador++;
             } else if (strcasecmp($arrayA[$i]['Estilo'], 'ASIMILADOR') == 0) {
-                $totalF++;
+                $totalAsimilador++;
             }else if (strcasecmp($arrayA[$i]['Estilo'], 'CONVERGENTE') == 0) {
-                $totalF++;
+                $totalConvergente++;
             }else if (strcasecmp($arrayA[$i]['Estilo'], 'DIVERGENTE') == 0) {
-                $totalF++;
+                $totalDivergente++;
             }
         }
 
@@ -221,33 +221,53 @@
 
 
     //calculamos la probabilidad de las frecuencias
-    //Recinto, promedio, estilo Acomodador
-    $frecuenciaAcomodadorRecinto = (($mRecinto + ($m * ($pRecinto))) / $totalM + $m);
-    $frecuenciaAcomodadorPromedio = (($mPromedio + ($m * ($pPromedio))) / $totalM + $m);
-    $frecuenciaAcomodadorSexo = (($mSexo + ($m * ($pEstilo))) / $totalM + $m);
+    //Recinto, promedio, Sexo Acomodador
+    $frecuenciaAcomodadorRecinto = (($acomodadorRecinto + ($m * ($pRecinto))) / $totalAcomodador + $m);
+    $frecuenciaAcomodadorPromedio = (($acomodadorPromedio + ($m * ($pPromedio))) / $totalAcomodador + $m);
+    $frecuenciaAcomodadorSexo = (($acomodadorSexo + ($m * ($pSexo))) / $totalAcomodador + $m);
 
-    //Recinto, promedio, estilo F
-    $frecuenciaFRecinto = (($fRecinto + ($m * ($pRecinto))) / $totalF + $m);
-    $frecuenciaFPromedio = (($fPromedio + ($m * ($pPromedio))) / $totalF + $m);
-    $frecuenciaFEstilo = (($fEstilo + ($m * ($pEstilo))) / $totalF + $m);
+    //Recinto, promedio, Sexo Asimilador
+    $frecuenciaAsimiladorRecinto = (($asimiladorRecinto + ($m * ($pRecinto))) / $totalAsimilador + $m);
+    $frecuenciaAsimiladorPromedio = (($asimiladorPromedio + ($m * ($pPromedio))) / $totalAsimilador + $m);
+    $frecuenciaAsimiladorSexo = (($asimiladorSexo + ($m * ($pSexo))) / $totalAsimilador + $m);
+
+    //Recinto, promedio, Sexo Convergente
+    $frecuenciaConvergenteRecinto = (($convergenteRecinto + ($m * ($pRecinto))) / $totalConvergente + $m);
+    $frecuenciaConvergentePromedio = (($convergentePromedio + ($m * ($pPromedio))) / $totalConvergente + $m);
+    $frecuenciaConvergenteSexo = (($convergenteSexo + ($m * ($pSexo))) / $totalConvergente + $m);
+
+    //Recinto, promedio, Sexo Divergente
+    $frecuenciaDivergenteRecinto = (($divergenteRecinto + ($m * ($pRecinto))) / $totalDivergente + $m);
+    $frecuenciaDivergentePromedio = (($divergentePromedio + ($m * ($pPromedio))) / $totalDivergente + $m);
+    $frecuenciaDivergenteSexo = (($divergenteSexo + ($m * ($pSexo))) / $totalDivergente + $m);
 
 
     //calculamos productos de frecuencias
-    //Paraiso
-    $mProducto = $frecuenciaMRecinto * $frecuenciaMPromedio * $frecuenciaMEstilo;
-    //Paraiso
-    $fProducto = $frecuenciaFRecinto * $frecuenciaFPromedio * $frecuenciaFEstilo;
+    //Acomodador
+    $acomodadorProducto = $frecuenciaAcomodadorRecinto * $frecuenciaAcomodadorPromedio * $frecuenciaAcomodadorSexo;
+    //asimilador
+    $asimiladorProducto = $frecuenciaAsimiladorRecinto * $frecuenciaAsimiladorPromedio * $frecuenciaAsimiladorSexo;
+    //Convergente
+    $convergenteProducto = $frecuenciaConvergenteRecinto * $frecuenciaConvergentePromedio * $frecuenciaConvergenteSexo;
+    //divergente
+    $divergenteProducto = $frecuenciaDivergenteRecinto * $frecuenciaDivergentePromedio * $frecuenciaDivergenteSexo;
 
     //Calculo la probabilidad total a partir del producto de frecuencias y cantidad de clases
-    $probabilidadM = $mProducto * ($totalM / $totalRegistros);
-    $probabilidadF = $fProducto * ($totalF / $totalRegistros);
+    $probabilidadAcomodador = $acomodadorProducto * ($totalAcomodador / $totalRegistros);
+    $probabilidadAsimilador = $asimiladorProducto * ($totalAsimilador / $totalRegistros);
+    $probabilidadConvergente = $convergenteProducto * ($totalConvergente / $totalRegistros);
+    $probabilidadDivergente = $divergenteProducto * ($totalDivergente / $totalRegistros);
 
 
     //Teniendo las probabilidades calculadas, obtenemos la mas alta
-    if ($probabilidadM >= $probabilidadF) {
-        $sampleRecinto = 'Masculino';
-    } else if ($probabilidadF > $probabilidadM) {
-        $sampleRecinto = 'Femenino';
+    if ($probabilidadAcomodador > $probabilidadAsimilador && $probabilidadAcomodador > $probabilidadConvergente && $probabilidadAcomodador > $probabilidadDivergente) {
+        $sampleRecinto = 'Acomodador';
+    } else if ($probabilidadAsimilador > $probabilidadAcomodador && $probabilidadAsimilador > $probabilidadConvergente && $probabilidadAsimilador> $probabilidadDivergente) {
+        $sampleRecinto = 'Asimilador';
+    } else if ($probabilidadConvergente > $probabilidadAcomodador && $probabilidadConvergente > $probabilidadAsimilador && $probabilidadConvergente> $probabilidadDivergente) {
+        $sampleRecinto = 'Convergente';
+    } else if ($probabilidadDivergente > $probabilidadAcomodador && $probabilidadDivergente > $probabilidadConvergente && $probabilidadDivergente> $probabilidadAsimilador) {
+        $sampleRecinto = 'Divergente';
     }
 
 
@@ -258,7 +278,7 @@
 
     <div class='container' style='border: 1px solid black;padding: 20px;'>
         <font color='#2574a9'>
-            <font size='6'>Sexo : <?php echo $sampleRecinto; ?></font>
+            <font size='6'>Estilo : <?php echo $sampleRecinto; ?></font>
         </font>
     </div>;
     <div class='container' style='border: 1px solid black;padding: 10px;'>
@@ -266,8 +286,8 @@
         <input id='ec' value=<?php echo $recinto; ?> size='30'>
         <label for='ec'>Promedio</label>
         <input id='or' value=<?php echo $promedio; ?> size='30'>
-        <label for='ec'>Estilo</label>
-        <input id='ca' value=<?php echo $estilo; ?> size='30'>
+        <label for='ec'>Sexo</label>
+        <input id='ca' value=<?php echo $sexo; ?> size='30'>
     </div>
     <br>
     <div class="container">
@@ -276,15 +296,19 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">Masculino</th>
-                    <th scope="col">Femenino</th>
+                    <th scope="col">Acomodador</th>
+                    <th scope="col">Asimilador</th>
+                    <th scope="col">Convergente</th>
+                    <th scope="col">Divergente</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <th scope="row">Cantidad</th>
-                    <td><?php echo $totalM; ?></td>
-                    <td><?php echo $totalF; ?></td>
+                    <td><?php echo $totalAcomodador; ?></td>
+                    <td><?php echo $totalAsimilador; ?></td>
+                    <td><?php echo $totalConvergente; ?></td>
+                    <td><?php echo $totalDivergente; ?></td>
                 </tr>
             </tbody>
         </table>
@@ -294,25 +318,33 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">Masculino</th>
-                    <th scope="col">Femenino</th>
+                    <th scope="col">Acomodador</th>
+                    <th scope="col">Asimilador</th>
+                    <th scope="col">Convergente</th>
+                    <th scope="col">Divergente</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <th scope="row">Recinto</th>
-                    <td scope="row"><?php echo $frecuenciaMRecinto; ?></td>
-                    <td><?php echo $frecuenciaFRecinto; ?></td>
+                    <td scope="row"><?php echo $frecuenciaAcomodadorRecinto; ?></td>
+                    <td><?php echo $frecuenciaAsimiladorRecinto; ?></td>
+                    <td><?php echo $frecuenciaConvergenteRecinto; ?></td>
+                    <td><?php echo $frecuenciaDivergenteRecinto; ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Promedio</th>
-                    <td scope="row"><?php echo $frecuenciaMPromedio; ?></td>
-                    <td><?php echo $frecuenciaFPromedio; ?></td>
+                    <td scope="row"><?php echo $frecuenciaAcomodadorPromedio; ?></td>
+                    <td><?php echo $frecuenciaAsimiladorPromedio; ?></td>
+                    <td><?php echo $frecuenciaConvergentePromedio; ?></td>
+                    <td><?php echo $frecuenciaDivergentePromedio; ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">Estilo</th>
-                    <td scope="row"><?php echo $frecuenciaMEstilo; ?></td>
-                    <td><?php echo $frecuenciaFEstilo; ?></td>
+                    <th scope="row">Sexo</th>
+                    <td scope="row"><?php echo $frecuenciaAcomodadorSexo; ?></td>
+                    <td><?php echo $frecuenciaAsimiladorSexo; ?></td>
+                    <td><?php echo $frecuenciaConvergenteSexo; ?></td>
+                    <td><?php echo $frecuenciaDivergenteSexo; ?></td>
                 </tr>
             </tbody>
         </table>
@@ -322,15 +354,19 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">Masculino</th>
-                    <th scope="col">Femenino</th>
+                    <th scope="col">Acomodador</th>
+                    <th scope="col">Asimilador</th>
+                    <th scope="col">Convergente</th>
+                    <th scope="col">Divergente</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <th scope="row">Porcentaje</th>
-                    <td><?php echo $probabilidadM; ?></td>
-                    <td><?php echo $probabilidadF; ?></td>
+                    <td><?php echo $probabilidadAcomodador; ?></td>
+                    <td><?php echo $probabilidadAsimilador; ?></td>
+                    <td><?php echo $probabilidadConvergente; ?></td>
+                    <td><?php echo $probabilidadDivergente; ?></td>
                 </tr>
             </tbody>
         </table>
